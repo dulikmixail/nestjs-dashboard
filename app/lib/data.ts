@@ -1,13 +1,6 @@
-import { sql } from '@vercel/postgres';
-import {
-  CustomerField,
-  CustomersTableType,
-  InvoiceForm,
-  InvoicesTable,
-  LatestInvoiceRaw,
-  Revenue,
-} from './definitions';
-import { formatCurrency } from './utils';
+import {sql} from '@vercel/postgres';
+import {CustomerField, CustomersTableType, InvoiceForm, InvoicesTable, LatestInvoiceRaw, Revenue,} from './definitions';
+import {formatCurrency} from './utils';
 
 export async function fetchRevenue() {
   try {
@@ -15,7 +8,7 @@ export async function fetchRevenue() {
     // Don't do this in production :)
 
     // console.log('Fetching revenue data...');
-    // await new Promise((resolve) => setTimeout(resolve, 3000));
+    // await new Promise((resolve) => setTimeout(resolve, 5000));
 
     const data = await sql<Revenue>`SELECT * FROM revenue`;
 
@@ -41,6 +34,7 @@ export async function fetchLatestInvoices() {
       ...invoice,
       amount: formatCurrency(invoice.amount),
     }));
+    // console.log('!!! fetchLatestInvoices', latestInvoices)
     return latestInvoices;
   } catch (error) {
     console.error('Database Error:', error);
